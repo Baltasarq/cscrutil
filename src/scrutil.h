@@ -3,109 +3,105 @@
 
 #include <stdbool.h>
 
-/** Colores */
+/** Colors */
 typedef enum _Color {
     scrBlack, scrBlue, scrRed, scrMagenta,
     scrGreen, scrCyan, scrYellow, scrWhite,
     scrUndefinedColor
 } Color;
 
-/**
-    Describe una pos. en la pantalla
-*/
+/** Stores a screen position */
 typedef struct _scrPosition {
     unsigned short int row;
     unsigned short int column;
 } scrPosition;
 
+/** Stores screen attributes (paper&ink) */
 typedef struct _scrAttributes {
     Color paper;
     Color ink;
 } scrAttributes;
 
-/**
-    Borra la pantalla
-*/
+/** Clear screen */
 void scrClear();
 
 /**
-    Indica los colores del texto a escribir
-    @param tinta Color de la tinta
-    @param papel Color de fondo
+    Sets next text colors as (paper, ink).
+    @param tinta Ink color
+    @param papel Paper color
 */
 void scrSetColors(Color tinta, Color papel);
 
 /**
-    Indica los colores del texto a escribir
-    @param color Color de la tinta y el papel
+    Set next text colors as attributes
+    @param color Paper & ink attributes
     @see scrAttributes
 */
 void scrSetColorsWithAttr(scrAttributes color);
 
 /**
-    Obtiene los atributos en uso
-    @return Los colores como una estructura scrAttributes
+    Gets the colors in use
+    @return Paper&ink colors as scrAttributes
     @see scrAttributes
 */
 scrAttributes scrGetCurrentAttributes();
 
 /**
-    Obtiene el char en una pos.
-    @param La pos. como una estructura scrPosition
-    @return El valor entero del char
+    Gets the char in a given position
+    @param pos The position as scrPosition
+    @return The integer value of char
     @see scrAttributes
 */
 int scrGetCharacterAt(scrPosition pos);
 
 /**
-    Mover el cursor a una pos. determinada
-    @param fila La fila en la que colocar el cursor
-    @param columna La columna en la que colocar el cursor
+    Moves the cursor to a given position
+    @param fila The row to move the cursor to
+    @param columna The column to move the cursor to
 */
 void scrMoveCursorTo(unsigned short int fila, unsigned short int columna);
 
 /**
-    Mover el cursor a una pos. determinada
-    @param pos Estructura scrPosition conteniendo la pos.
+    Moves the cursor to a given position
+    @param pos An scrPosition containing the new position
     @see scrPosition
 */
 void scrMoveCursorToPos(scrPosition pos);
 
 /**
-    Devuelve el num. de filas y columnas max.
-    @return La info. como estructura scrPosition
+    Returns the maximum number of rows and columns.
+    @return The info as an scrPosition struct.
     @see scrPosition
-    @note en Unix siempre devuelve 25x80
+    @note always returns 25x80 on *nix.
 */
 scrPosition scrGetConsoleSize();
 
 /**
-    Devuelve el num. de filas
-    @return El max. num. de filas
+    Returns the maximun number of rows
+    @return Max rows
     @see scrPosition
-    @note En caso de que la funcionalidad no se soporte,
-          devuelve -1 en ambos campos de scrPosition
+    @note if not supported, returns -1
 */
 unsigned short int scrGetMaxRows();
 
 /**
-    Devuelve el num. de columnas
-    @return El max. num. de columnas
+    Returns the maximum number of columns
+    @return Max columns
     @see scrGetConsoleSize
 */
 unsigned short int scrGetMaxColumns();
 
 /**
-    Devuelve la pos. del cursor
-    @return La pos. del cursor
+    Returns the cursor position
+    @return The cursor position as an scrPosition
     @see scrGetConsoleSize
-    @see en Unix siempre devuelve -1, -1
+    @see Always returns -1, -1 in *nix
 */
 scrPosition scrGetCursorPosition();
 
 /**
-    Esconde o visualiza el cursor
-    @param see Si es verdadero, lo visualiza, si es falso lo esconde.
+    Shows or hides the cursor
+    @param see true to show it, false otherwise.
 */
 void scrShowCursor(bool see);
 

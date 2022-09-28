@@ -1,5 +1,5 @@
 /*
-    Manejo de la consola
+    Console management
 */
 
 #include "scrutil.h"
@@ -7,7 +7,7 @@
 #include <string.h>
 #include <stdio.h>
 
-/* Detectar el sistema operativo */
+/* Operating system detection */
 #ifdef _WIN32
     #define SO_WINDOWS
 #else
@@ -26,16 +26,15 @@
 #include <windows.h>
 
 /* WinColors */
-/// Colores para tinta
+/// Ink colors
 static short int winInkColors[ scrUndefinedColor + 1 ];
-/// Colores para fondo
+/// Paper colors
 static short int winPaperColors[ scrUndefinedColor + 1 ];
 
 static void initWindowsColors()
 /**
-    Windows distingue entre colores de fondo y colores de tinta,
-    y sigue el std. RGB, lo que obliga a definir los colores
-    sencillos para construirlos.
+    Windows differentiates between ink and paper colors, following the RGB standard.
+    This makes it mandatory to "build" a few colors.
 */
 {
     winInkColors[ scrBlack ]     = 0;
@@ -59,48 +58,48 @@ static void initWindowsColors()
     winPaperColors[ scrUndefinedColor ] = 0;
 }
 #else
-    // Commands
-    static const short int MaxCmdBuffer = 32;
-    /// Caracts. por el que empiezan todos los comandos
+    // Max command size
+    enum { MaxCmdBuffer = 32 };
+    /// Prefix for all commands
     static const char * CSI = "\33[";
     static const char * CmdClearScreen = "2J";
     static char cmd[MaxCmdBuffer];
 
     // Colors
-    /// Colores para la tinta
+    /// Ink colors
     static char cmdUnixInkColors[ scrUndefinedColor + 1 ][MaxCmdBuffer];
-    /// Colores para el fondo
+    /// Paper colors
     static char cmdUnixPaperColors[ scrUndefinedColor + 1 ][MaxCmdBuffer];
-    /// Max. filas en pantalla
+    /// Max rows on screen
     static const short int UnixLastLine = 25;
     static const short int UnixLastColumn = 80;
 
 
     static void initUnixColors()
     /**
-        Linux sigue los códigos de control ANSI que comienzan con
-        ESC, y con ellos se puede limpiar la pantalla, cambiar los colores, ...
+        Linux follows the ANSI control codes starting with the ESC prefix,
+        that give whole screen control (colors, position...).
     */
     {
-        sprintf( cmdUnixInkColors[ scrBlack ], "%s%s", CSI, "30m" );
-        sprintf( cmdUnixInkColors[ scrBlue ], "%s%s", CSI, "34m" );
-        sprintf( cmdUnixInkColors[ scrRed ], "%s%s", CSI, "31m" );
-        sprintf( cmdUnixInkColors[ scrMagenta ], "%s%s", CSI, "35m" );
-        sprintf( cmdUnixInkColors[ scrGreen ], "%s%s", CSI, "32m" );
-        sprintf( cmdUnixInkColors[ scrCyan ], "%s%s", CSI, "36m" );
-        sprintf( cmdUnixInkColors[ scrYellow ], "%s%s", CSI, "93m" );
-        sprintf( cmdUnixInkColors[ scrWhite ], "%s%s", CSI, "37m" );
-        sprintf( cmdUnixInkColors[ scrUndefinedColor ], "%s%s", CSI, "30m" );
+        sprintf( cmdUnixInkColors[ scrBlack ], "%s%3s", CSI, "30m" );
+        sprintf( cmdUnixInkColors[ scrBlue ], "%s%3s", CSI, "34m" );
+        sprintf( cmdUnixInkColors[ scrRed ], "%s%3s", CSI, "31m" );
+        sprintf( cmdUnixInkColors[ scrMagenta ], "%s%3s", CSI, "35m" );
+        sprintf( cmdUnixInkColors[ scrGreen ], "%s%3s", CSI, "32m" );
+        sprintf( cmdUnixInkColors[ scrCyan ], "%s%3s", CSI, "36m" );
+        sprintf( cmdUnixInkColors[ scrYellow ], "%s%3s", CSI, "93m" );
+        sprintf( cmdUnixInkColors[ scrWhite ], "%s%3s", CSI, "37m" );
+        sprintf( cmdUnixInkColors[ scrUndefinedColor ], "%s%3s", CSI, "30m" );
 
-        sprintf( cmdUnixPaperColors[ scrBlack ], "%s%s", CSI, "40m" );
-        sprintf( cmdUnixPaperColors[ scrBlue ], "%s%s", CSI, "44m" );
-        sprintf( cmdUnixPaperColors[ scrRed ], "%s%s", CSI, "41m" );
-        sprintf( cmdUnixPaperColors[ scrMagenta ], "%s%s", CSI, "45m" );
-        sprintf( cmdUnixPaperColors[ scrGreen ], "%s%s", CSI, "42m" );
-        sprintf( cmdUnixPaperColors[ scrCyan ], "%s%s", CSI, "46m" );
-        sprintf( cmdUnixPaperColors[ scrYellow ], "%s%s", CSI, "103m" );
-        sprintf( cmdUnixPaperColors[ scrWhite ], "%s%s", CSI, "47m" );
-        sprintf( cmdUnixPaperColors[ scrUndefinedColor ], "%s%s", CSI, "40m" );
+        sprintf( cmdUnixPaperColors[ scrBlack ], "%s%3s", CSI, "40m" );
+        sprintf( cmdUnixPaperColors[ scrBlue ], "%s%3s", CSI, "44m" );
+        sprintf( cmdUnixPaperColors[ scrRed ], "%s%3s", CSI, "41m" );
+        sprintf( cmdUnixPaperColors[ scrMagenta ], "%s%3s", CSI, "45m" );
+        sprintf( cmdUnixPaperColors[ scrGreen ], "%s%3s", CSI, "42m" );
+        sprintf( cmdUnixPaperColors[ scrCyan ], "%s%3s", CSI, "46m" );
+        sprintf( cmdUnixPaperColors[ scrYellow ], "%s%3s", CSI, "103m" );
+        sprintf( cmdUnixPaperColors[ scrWhite ], "%s%3s", CSI, "47m" );
+        sprintf( cmdUnixPaperColors[ scrUndefinedColor ], "%s%3s", CSI, "40m" );
     }
 #endif
 
@@ -129,7 +128,7 @@ void scrClear()
     scrInit();
 
     #ifdef SO_WINDOWS
-	COORD pos = { 0, 0 };
+        COORD pos = { 0, 0 };
         DWORD cars;
         HANDLE hStdOut = GetStdHandle( STD_OUTPUT_HANDLE );
         CONSOLE_SCREEN_BUFFER_INFO csbi;
