@@ -1,4 +1,4 @@
-# SCR Util c lib
+# SCR Util clib
 
 Gestión de pantalla para la consola multiplataforma.
 
