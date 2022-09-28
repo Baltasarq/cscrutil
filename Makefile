@@ -1,8 +1,9 @@
+CFLAGS = -std=c99
 
-.PHONY all
+.PHONY = all
 
-all: test/main.c scrutil
-  $(CC) test/main.c scrutil -otestscrutil
-  
-scrutil: src/scrutil.h src/scrutil.c
-  $(CC) -c test/scrutil.c -oscrutil
+all: test/main.c scrutil.o
+	$(CC) $(CFLAGS) test/main.c scrutil.o -otestscrutil
+
+scrutil.o: src/scrutil.h src/scrutil.c
+	$(CC) $(CFLAGS) -c src/scrutil.c -oscrutil
