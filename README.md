@@ -8,6 +8,11 @@ Esta librería, programada en C, puede manejar las consolas tanto de Windows (ut
 
 *This library, written in C, can manage both Windows and Linux consoles. It uses system calls for Windows, and the ANSI control escape sequences for Linux.*
 
+## Screenshots
+
+![Inputting data](docs/res/scr-input_data.png)
+![Showing data](docs/res/scr-show_data.png)
+
 ## Using this library
 Puedes simplemente poner los archivos `scrutil.c` y `scrutil.h`en el mismo directorio de tu programa, y añadirlos al sistema de compilación de tu IDE, o simplemente modificar el `Makefile` dado y teclear `make`.
 
