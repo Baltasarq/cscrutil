@@ -33,7 +33,7 @@ int main()
     scrMoveCursorTo( 10, 10 );
     printf( "Name:" );
     scrMoveCursorTo( 12, 10 );
-    printf("Age:" );
+    printf( "Age:" );
     
     // Input data
     scrMoveCursorTo( 10, 30 );
