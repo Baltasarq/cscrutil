@@ -30,7 +30,7 @@ void scrClear();
     @param tinta Ink color
     @param papel Paper color
 */
-void scrSetColors(Color tinta, Color papel);
+void scrSetColors(Color ink, Color paper);
 
 /**
     Set next text colors as attributes
@@ -38,6 +38,14 @@ void scrSetColors(Color tinta, Color papel);
     @see scrAttributes
 */
 void scrSetColorsWithAttr(scrAttributes color);
+
+/**
+    Inverts the given colors.
+    @param colors An scrAttributes structure.
+    @return A new scrAttributes structure with inverted colors.
+    @see scrAttributes
+*/
+scrAttributes scrInvertColors(scrAttributes colors);
 
 /**
     Gets the colors in use
@@ -56,10 +64,10 @@ int scrGetCharacterAt(scrPosition pos);
 
 /**
     Moves the cursor to a given position
-    @param fila The row to move the cursor to
-    @param columna The column to move the cursor to
+    @param row The row to move the cursor to
+    @param col The column to move the cursor to
 */
-void scrMoveCursorTo(unsigned short int fila, unsigned short int columna);
+void scrMoveCursorTo(unsigned short int row, unsigned short int col);
 
 /**
     Moves the cursor to a given position
@@ -104,5 +112,14 @@ scrPosition scrGetCursorPosition();
     @param see true to show it, false otherwise.
 */
 void scrShowCursor(bool see);
+
+/**
+    Shows a card (inverse colors).
+    @param row The top left corner.
+    @param col The top left corner.
+    @param width The width of the card.
+    @param height The height of the card.
+*/
+void scrPrintCard(int row, int col, int width, int height);
 
 #endif // SCRUTIL_H_INCLUDED

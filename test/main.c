@@ -1,35 +1,64 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "scrutil.h"
 
 int main()
 {
-    char nombre[255];
+    scrAttributes colors;
+    char buffer[ 255 ];
+    char nombre[ 255 ];
+    int age;
 
-    // Iniciar
-    scrSetColors( scrYellow, scrBlue );
+    // Init
+    colors.paper = scrBlue;
+    colors.ink = scrYellow;
+    scrSetColorsWithAttr( colors );
     scrClear();
 
-    // Mostrar info consola
-    scrShowCursor( true );
-    scrMoveCursorTo( 0, 0 );
-    printf( "scrutil Demo" );
-    scrMoveCursorTo( 5, 10 );
-    printf( "Max Filas: %d\n", scrGetMaxRows() );
-    scrMoveCursorTo( 6, 10 );
-    printf( "Max Columnas: %d\n", scrGetMaxColumns() );
+    // Show console info
+    scrMoveCursorTo( scrGetMaxRows() - 1, 20 );
+    printf( "scrutil demo    max rows: %d max cols: %d", scrGetMaxRows(), scrGetMaxColumns() );
+    scrMoveCursorTo( scrGetMaxRows() - 2, 20 );
+    printf( "_________________________________________" );
 
-    // Pedir el nombre
+    // Title
+    scrMoveCursorTo( 0, 33 );
+    scrSetColorsWithAttr( scrInvertColors( colors ) );
+    printf( "Input data card" );
+    scrSetColorsWithAttr( colors );
+    scrMoveCursorTo( 1, 33 );
+    printf( "_______________" );
+    
+    // Show form labels
     scrMoveCursorTo( 10, 10 );
-    printf( "Introduce tu nombre:" );
-    scrMoveCursorTo( 10, 50 );
+    printf( "Name:" );
+    scrMoveCursorTo( 12, 10 );
+    printf("Age:" );
+    
+    // Input data
+    scrMoveCursorTo( 10, 30 );
+    scrSetColorsWithAttr( scrInvertColors( colors ) );
+    printf( "______________________________" );
+    scrMoveCursorTo( 10, 30 );
     fgets( nombre, 255, stdin );
+    
+    scrMoveCursorTo( 12, 30 );
+    printf( "______________________________" );
+    scrMoveCursorTo( 12, 30 );
+    fgets( buffer, 255, stdin );
+    age = atoi( buffer );
 
-    // Mostrar el nombre
-    scrSetColors( scrYellow, scrRed );
-    scrMoveCursorTo( scrGetMaxRows() - 7, 50 );
-    printf( "Tu nombre es %s\n", nombre );
-    scrShowCursor( false );
+    // Show data
+    scrSetColors( scrRed, scrWhite );
+    scrPrintCard( 15, 30, 30, 2 );
+    scrMoveCursorTo( 15, 30 );
+    printf( "Your name is %s", nombre );
+    scrMoveCursorTo( 16, 30 );
+    printf( "Your age is %d", age );
+    printf( "\n" );
 
+    // Back to safety attributes
     scrSetColors( scrWhite, scrBlack );
+    scrShowCursor( true );
     return 0;
 }

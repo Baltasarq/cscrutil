@@ -184,12 +184,22 @@ void scrSetColorsWithAttr(scrAttributes colors)
     #endif
 }
 
-void scrSetColors(Color tinta, Color papel)
+scrAttributes scrInvertColors(scrAttributes colors)
+{
+    scrAttributes inv;
+    
+    inv.ink = colors.paper;
+    inv.paper = colors.ink;
+    
+    return inv;
+}
+
+void scrSetColors(Color ink, Color paper)
 {
     scrAttributes atrs;
 
-    atrs.paper = papel;
-    atrs.ink = tinta;
+    atrs.paper = paper;
+    atrs.ink = ink;
 
     scrSetColorsWithAttr( atrs );
 }
@@ -199,7 +209,7 @@ void scrMoveCursorToPos(scrPosition pos)
     scrMoveCursorTo( pos.row, pos.column );
 }
 
-void scrMoveCursorTo(unsigned short int fila, unsigned short int columna)
+void scrMoveCursorTo(unsigned short int row, unsigned short int col)
 {
     scrInit();
 
@@ -211,7 +221,7 @@ void scrMoveCursorTo(unsigned short int fila, unsigned short int columna)
 
         SetConsoleCursorPosition( GetStdHandle( STD_OUTPUT_HANDLE ), pos );
     #else
-        printf( "%s%d;%dH", CSI, fila + 1, columna + 1 );
+        printf( "%s%d;%dH", CSI, row + 1, col + 1 );
     #endif
 }
 
@@ -291,4 +301,24 @@ void scrShowCursor(bool see)
     #else
         printf( "%s?25%c", CSI, see ? 'h' : 'l' );
     #endif
+}
+
+void scrPrintCard(int row, int col, int width, int height)
+{
+    char buffer[ width + 1 ];
+    
+    // Prepare the card's width
+    memset( buffer, ' ', width );
+    *( buffer + width ) = 0;
+    
+    // Show the card
+    scrSetColorsWithAttr( scrInvertColors( scrGetCurrentAttributes() ) );
+    
+    int frow = row + height;
+    for(int i = row; i < frow; ++i) {
+        scrMoveCursorTo( i, col );
+        printf( buffer );
+    }
+    
+    return;
 }
